@@ -14,8 +14,6 @@ def extract_value(soup: BeautifulSoup, selector: str):
     text = first_element.get_text(strip=True)  # get human readable text
     return text
 
-def extract_value(soup: BeautifulSoup):
-
 url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
