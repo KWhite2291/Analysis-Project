@@ -24,6 +24,16 @@ def extract_td_value(soup: BeautifulSoup):
     td_value = soup.find("td").text
     return td_value
 
+def extract_category_name(soup: BeautifulSoup, selector: str):
+    elements =soup.select(selector)
+    first_element = elements[0]
+    text = first_element.get_text(strip=True)
+    return text
+
+def extract_rating(soup: BeautifulSoup):
+    rating_tag = soup.find('p',class_="star-rating")
+    return rating_tag 
+   
 
 url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 page = requests.get(url)
@@ -34,13 +44,24 @@ title = extract_value(soup,".col-sm-6.product_main > h1")
 price = extract_value(soup, ".price_color")
 quantity_available = extract_value(soup, ".instock.availability")
 description = extract_description(soup)
+category_name = soup.find("a").text.strip()
+rating = extract_rating(soup)
+
 
 print(url)
 print(title)
 print(price)
 print(quantity_available)
 print(description)
-print(td_value) 
+print(td_value)
+print(category_name)
+print(rating)
+
+
+
+
+
+
 
 
 
