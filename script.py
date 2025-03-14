@@ -20,10 +20,16 @@ def extract_url(soup: BeautifulSoup, selector: str):
     text = first_element.get_text(strip=True)
     return text 
 
+def extract_td_value(soup: BeautifulSoup):
+    td_value = soup.find("td").text
+    return td_value
+
+
 url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
 
+td_value = extract_td_value(soup)
 title = extract_value(soup,".col-sm-6.product_main > h1")
 price = extract_value(soup, ".price_color")
 quantity_available = extract_value(soup, ".instock.availability")
@@ -34,6 +40,7 @@ print(title)
 print(price)
 print(quantity_available)
 print(description)
+print(td_value) 
 
 
 
