@@ -31,9 +31,10 @@ def extract_category_name(soup: BeautifulSoup, selector: str):
     return text
 
 def extract_rating(soup: BeautifulSoup):
-    rating_tag = soup.find('p',class_="star-rating")
-    return rating_tag 
-   
+    rating_tag = soup.find("p").text
+    return rating_tag
+
+
 
 url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 page = requests.get(url)
