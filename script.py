@@ -24,15 +24,13 @@ def extract_td_value(soup: BeautifulSoup):
     td_value = soup.find("td").text
     return td_value
 
-def extract_category_name(soup: BeautifulSoup, selector: str):
-    elements =soup.select(selector)
-    first_element = elements[0]
-    text = first_element.get_text(strip=True)
-    return text
 
 def extract_rating(soup: BeautifulSoup):
     rating_tag = soup.find("p").text
     return rating_tag
+
+def extract_image_url(soup):
+    return soup.find('img')['src']
 
 
 
@@ -47,16 +45,12 @@ quantity_available = extract_value(soup, ".instock.availability")
 description = extract_description(soup)
 category_name = soup.find("a").text.strip()
 rating = extract_rating(soup)
+image_url = soup.find("img").text.strip()
 
+book = {"title": title, "price": price, "url": url, "quantity_available": quantity_available, "description": description, "category_name": category_name, "rating": rating, "image_url": image_url}
+books = []
 
-print(url)
-print(title)
-print(price)
-print(quantity_available)
-print(description)
-print(td_value)
-print(category_name)
-print(rating)
+print(book)
 
 
 
