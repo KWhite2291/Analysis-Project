@@ -79,7 +79,7 @@ url = "http://books.toscrape.com"
 response = requests.get(url)
 soup = BeautifulSoup(response.text, "html.parser")
 
-links = [link.get("href") for link in soup.find_all("a") if link.get("href")]
+links =  links = [link.get("href") for link in soup.find_all("a") if link.get("href") and "/catalogue/" in link.get("href")]
 
 for link in links:
     print(link)
@@ -102,11 +102,14 @@ while base_url:
         print(link) 
 
 
-next_page = soup.select_one(".pagination .next a")  # Refined selector for the "Next" button
+next_page = soup.select_one(".pagination .next a")  
 if next_page:
     next_url = next_page["href"]
+    print(f"Next page URL: {next_url}")
+
     base_url = "/".join(base_url.split("/")[:-1]) + "/" + next_url
 else: 
     base_url = None
 
     print(f"\nTotal Links Scraped: {len(all_links)}")
+    print("next_url")
