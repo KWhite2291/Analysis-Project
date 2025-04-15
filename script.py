@@ -57,59 +57,21 @@ print(book)
 import requests
 from bs4 import BeautifulSoup
 
-def get_url(url="https://books.toscrape.com/catalogue/category/books/poetry_23/index.html"):
-    web = requests.get(url)
-    if web.status_code == 200:
-        return web.text
-    
-    doc_html = get_url()
-    soup = BeautifulSoup(doc_html, "html.parser")
-
+def get_title_urls(soup: BeautifulSoup): 
     all_links = soup.find_all('a',attrs={'title': True})
-    
+    return all_links
 
-    print (all_links)
-    print(link.get("href"))
-    print (len(all_links))
 
-from bs4 import BeautifulSoup
-import requests
-
-url = "http://books.toscrape.com"
-response = requests.get(url)
+homepage_url = "http://books.toscrape.com" 
+response = requests.get(homepage_url)
 soup = BeautifulSoup(response.text, "html.parser")
-
-links =  links = [link.get("href") for link in soup.find_all("a") if link.get("href") and "/catalogue/" in link.get("href")]
-
-for link in links:
-    print(link)
-
-    base_url = "http://books.toscrape.com/catalogue/page-1.html"
-main_site = "http://books.toscrape.com/catalogue/"
-
-all_links = []
-
-while base_url:
-    response = requests.get(base_url)
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    links = [link.get("href") for link in soup.find_all("a") if link.get("href")]
-
-    for link in links:
-        if link.startswith("../"):
-            link = main_site + link.replace("../", "")
-        all_links.append(link)
-        print(link) 
+category_urls = get_title_urls(soup)
 
 
-next_page = soup.select_one(".pagination .next a")  
-if next_page:
-    next_url = next_page["href"]
-    print(f"Next page URL: {next_url}")
+for category_url in category_urls:
+   full_url = homepage_url + "/" + category_url.get("a")(strip=True)
+   response = requests.get(category_url)
+   soup = BeautifulSoup(response.text, "html.parser")
+   book_urls = get_title_urls(soup)
+   "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 
-    base_url = "/".join(base_url.split("/")[:-1]) + "/" + next_url
-else: 
-    base_url = None
-
-    print(f"\nTotal Links Scraped: {len(all_links)}")
-    print("next_url")
